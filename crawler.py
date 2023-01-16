@@ -9,7 +9,6 @@ def get_laptops(p):
     page = browser.new_page()
     page.goto(
         'https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops')
-
     laptop_data = []
     laptops = page.query_selector_all('div.thumbnail')
     for laptop in laptops:
@@ -25,16 +24,16 @@ def get_laptops(p):
         })
     browser.close()
     lenovo_laptops = list(
-        filter(lambda x: 'Lenovo' in x['title'], laptop_data))
+        filter(lambda x: 'Lenovo' in x['description'], laptop_data))
     sorted_list = sorted(lenovo_laptops, key=lambda x: x['price'])
     return sorted_list
 
 
-@app.route('/laptops', methods=['GET'])
+@app.route('/', methods=['GET'])
 def main():
-  with sync_playwright() as p:
-      result = get_laptops(p)
-  return jsonify(result)
+    with sync_playwright() as p:
+        result = get_laptops(p)
+    return jsonify(result)
 
 
 if __name__ == '__main__':
