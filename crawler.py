@@ -1,6 +1,8 @@
 import requests
 from parsel import Selector
+from flask import Flask, jsonify
 
+app = Flask(__name__)
 
 def get_page(url):
     try:
@@ -12,7 +14,7 @@ def get_page(url):
 
 
 def extract_data(html):
-    selector = Selector(text=html)
+    selector = Selector(html)
     laptop_data = []
     for laptop in selector.css('div.thumbnail'):
         title = laptop.css('a.title::text').get()
@@ -29,9 +31,13 @@ def extract_data(html):
     sorted_list = sorted(lenovo_laptops, key=lambda x: x['price'])
     return sorted_list
 
-
-if __name__ == '__main__':
+@app.route('/laptops', methods=['GET'])
+def get_laptops():
     html_text = get_page(
         'https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops')
     laptop_data = extract_data(html_text)
-    print(laptop_data[0]['price'])
+    return jsonify(laptop_data)
+
+
+if __name__ == '__main__':
+    app.run()
