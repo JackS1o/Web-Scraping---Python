@@ -21,16 +21,17 @@ def extract_data(html):
         rating = laptop.css('p.pull-right::text').get()
         laptop_data.append({
             'title': title,
-            'price': price,
+            'price': float(price[1:]),
             'description': description,
             'rating': rating
         })
     lenovo_laptops = list(filter(lambda x: 'Lenovo' in x['title'], laptop_data))
-    return lenovo_laptops
+    sorted_list = sorted(lenovo_laptops, key=lambda x: x['price'])
+    return sorted_list
 
 
 if __name__ == '__main__':
     html_text = get_page(
         'https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops')
     laptop_data = extract_data(html_text)
-    print(laptop_data)
+    print(laptop_data[0]['price'])
