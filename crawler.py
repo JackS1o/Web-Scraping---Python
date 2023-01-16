@@ -1,15 +1,36 @@
 import requests
+from parsel import Selector
+
 
 def get_page(url):
     try:
-        return requests.get(url).text
+        response = requests.get(url)
     except requests.exceptions.RequestException:
-        print('Error during requests to {0} : {1}'.format(url, str(e)))
         return None
-    
-def main():
-    url = 'https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops'
-    print(get_page(url))
+    else:
+        return response.text
+
+
+def extract_data(html):
+    selector = Selector(text=html)
+    laptop_data = []
+    for laptop in selector.css('div.thumbnail'):
+        title = laptop.css('a.title::text').get()
+        price = laptop.css('h4.pull-right::text').get()
+        description = laptop.css('p::text').get()
+        rating = laptop.css('p.pull-right::text').get()
+        laptop_data.append({
+            'title': title,
+            'price': price,
+            'description': description,
+            'rating': rating
+        })
+    lenovo_laptops = list(filter(lambda x: 'Lenovo' in x['title'], laptop_data))
+    return lenovo_laptops
+
 
 if __name__ == '__main__':
-    main()
+    html_text = get_page(
+        'https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops')
+    laptop_data = extract_data(html_text)
+    print(laptop_data)
