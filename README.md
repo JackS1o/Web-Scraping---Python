@@ -27,4 +27,4 @@ Esta aplicação foi desenvolvida com as seguintes tecnologias:
 Python, com a biblioteca Playwright para automatizar o navegador e extrair os dados e a biblioteca Flask para criar e deixar os dados disponíveis em uma API.
 
 
-O objetivo era consumir uma URL, filtrar os dados e retornar uma lista de objetos com apenas laptops da marca Lenovo.
+O objetivo era consumir uma URL, filtrar os dados e retornar uma lista de dicionários com apenas laptops da marca Lenovo.
