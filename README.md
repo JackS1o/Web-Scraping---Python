@@ -12,7 +12,7 @@ playwright install
 ## Após a instalação das dependências, basta executar o comando:
 
 ```bash
-python crawler.py
+python3 crawler.py
 
 ```
 ## Acesse a API em:
