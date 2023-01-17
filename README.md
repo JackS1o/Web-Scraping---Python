@@ -14,7 +14,13 @@ playwright install
 ```bash
 python crawler.py
 
-``` 
+```
+## Acesse a API em:
+
+```bash
+http://localhost:5000/
+
+```
 
 Esta aplicação foi desenvolvida com as seguintes tecnologias:
 
